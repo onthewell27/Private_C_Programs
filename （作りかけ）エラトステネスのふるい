@@ -1,0 +1,55 @@
+//エラトステネスのふるいのアルゴリズムをC言語で再現
+
+#include <stdio.h>
+
+//配列の要素をいじるのはポインタを使用…もしかしてしなくても大丈夫？
+//メモ：この関数がどうも機能していないらしい。
+void eratosthenesSieve( int array[],int num ){
+	int i , k ;
+
+	while(k*k<=num){
+		for( i=k;i<=100/k;i++ ){
+			array[k*i]=0 ;
+		}
+		do{
+			k++ ;
+		}while(array[k]==0);
+	}
+}
+
+int main ( void ){
+	setvbuf( stdout,NULL,_IONBF,0 ) ;
+
+	int num , i ;
+
+	//入力された正の整数以下の素数を求めます
+	printf( "入力された正の整数以下の素数を求めます。\n" ) ;
+	//正の整数を入力
+	//入力された数が正か判定（正が入力されるまで繰り返すタイプにしようか）
+	do{
+		printf( "正の整数を入力：" ) ;  scanf( "%d",&num ) ;
+		if(num<0){
+			printf("数値が不適です。\n");
+		}
+	}while(num<=0);
+
+	//入力された数+1の要素数を持つ配列を生成、すべて1で初期化
+	int array[num+1] ;
+	for( i=0;i<( sizeof(array)/sizeof(array[0]) );i++ ){
+		array[i]=1 ;
+	}
+
+
+	//エラトステネスのふるい関数を起動。配列を投げる。
+	eratosthenesSieve( array , num );
+
+	//配列中の要素が1である添え字を出力
+	for(i=2;i<=num;i++){
+		if(array[i]==1){
+			printf("%d\n",i);
+		}
+	}
+
+
+	return 0 ;
+}
